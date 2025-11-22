@@ -1,0 +1,279 @@
+
+@tailwind utilities;
+@import "tailwindcss/theme";
+@theme{
+  --color-border:hsl(var(--border));
+  --color-background:hsl(var(--background));
+  --color-foreground:hsl(var(--foreground));
+  --color-primary:hsl(var(--primary)); 
+  --color-primary-foreground:hsl(var(--primaryforeground));
+  --color-card:hsl(var(--card));
+  --color-glow-shadow:var(--glow-shadow);
+  --animate-float:float 6s ease-in-out infinite;
+  --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
+  --animate-float-subtle: float-subtle 10s ease-in-out infinite;
+  --animate-fade-in:fade-in 0.7s ease-out forwards;
+  --animate-fade-in-delay-1:fade-in 0.7s ease-out 0.2s forwards;
+  --animate-fade-in-delay-2:fade-in 0.7s ease-out 0.4s forwards;
+  --animate-fade-in-delay-3:fade-in 0.7s ease-out 0.6s forwards;
+  --animate-fade-in-delay-4:fade-in 0.7s ease-out 0.8s forwards;
+  --animate-meteor: meteor 5s linear infinite;
+   --animate-shooting-star: shooting-star 3s ease-out forwards;
+  
+  @keyframes shooting-star {
+    0% {
+      opacity: 0;
+      transform: rotate(-45deg) translateX(0) translateY(0);
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(-45deg) translateX(600px) translateY(300px);
+    }
+  }
+
+  @keyframes float{
+    0%,
+    100%{
+      transform:translateY(0);
+    }
+    50%{
+      transform:translateY(-10px);
+    }
+  }
+  @keyframes float-subtle {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-0.5px) scale(1.001); /* Very subtle shift */
+    }
+  }
+@keyframes pulse-subtle {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+ @keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-in-delay {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+   @keyframes meteor {
+    0% {
+      opacity: 1;
+      transform: rotate(215deg) translateX(0);
+    }
+    70%{
+      opacity:1;
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(215deg) translateX(-500px);
+    }
+  }
+} 
+@layer base {
+  :root {
+    --background: 0 0% 100%;      
+    --foreground: 222 47% 7%;       
+    
+    --primary: 250 70% 50%;        
+    --primaryforeground: 210 40% 98%;
+
+    --card: 0  0% 100%;           
+    --border: 214  32% 91%;          
+  }
+
+  .dark {
+    --background: 222 47% 4%;      
+    --foreground: 213  31% 91%;      
+
+    --primary: 250 80% 80%;          
+    --primaryforeground: 213 31% 91%;
+
+    --card: 222 47% 8%;
+    --border: 217 33% 20%;
+    --glow-shadow: 0 0 10px rgba(167,139,250,0.5);
+  }
+  *{
+    @apply border-border;
+  }
+  * {
+  box-sizing: border-box !important;
+}* {
+  forced-color-adjust: none !important;
+}img, video {
+  color-scheme: light !important;
+}
+  html{
+    @apply scroll-smooth;
+ color-scheme: light; 
+    overflow-x: hidden;
+     scroll-behavior: smooth;
+  }
+  body{
+    @apply bg-background text-foreground transition-colors duration-300;
+    font-feature-settings:"rling",1,"calt";
+    overflow-x: hidden;
+  }
+  :not(.dark) body {
+    animation: var(--animate-float-subtle);
+  }
+}
+ 
+@utility container{
+  margin-inline:auto;
+  padding-inline:2rem;
+
+  @media (width>=640px){
+    max-width:640px;
+  }
+  @media (width>=768px){
+    max-width:768px;
+  }
+   @media (width>=1024px){
+    max-width:1024px;
+  }
+   @media (width>=1280px){
+    max-width:1280px;
+  }
+   @media (width>=1400px){
+    max-width:1400px;
+  }
+}
+@utility text-glow{
+  @apply relative;
+text-shadow: var(--glow-shadow);}
+@utility card-hover{
+  @apply  transition-transform duration-300  hover:scale-[1.02] hover:shadow-lg;
+}
+@utility gradient-border{
+  @apply relative rounded-md;
+  background:linear-gradient(to right,hsl(var(--card)),hsl(var(--card)));
+  background-clip:padding-box;
+  border:1px solid transparent
+}
+@utility cosmic-button{
+  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium
+         transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
+         hover:scale-105 active:scale-95;
+}
+@utility star {
+  @apply absolute rounded-full;
+  background-color: white;
+  box-shadow: 0 0 4px 2px rgba(255, 255, 255, 0.6); /* more glow like video */
+}
+
+@keyframes meteor {
+  0% {
+    opacity: 1;
+    transform: rotate(215deg) translateX(0);
+  }
+  70%{
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(215deg) translateX(-500px);
+  }
+}
+
+
+.meteor {
+  @apply absolute;
+
+  /* Perfect tail size (YouTube uses short bright streak) */
+  width: 3px;            /* slightly thicker */
+  height: 50px;          /* shorter tail */
+
+  /* TRUE YouTube glow — head + fade tail */
+  background: linear-gradient(
+    to bottom,
+    white 0%,            /* bright meteor head */
+    rgba(255, 255, 255, 0.6) 20%,
+    rgba(255, 255, 255, 0) 100%
+  );
+
+  transform-origin: 0% 0%;
+  box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.7);
+}
+.shooting-star {
+  @apply absolute;
+  width: 4px;
+  height: 80px;
+  
+  /* Bright glowing trail */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.9) 10%,
+    rgba(147, 197, 253, 0.6) 40%,
+    rgba(147, 197, 253, 0) 100%
+  );
+  
+  transform-origin: 0% 0%;
+  box-shadow: 
+    0 0 8px 3px rgba(255, 255, 255, 0.9),
+    0 0 15px 5px rgba(147, 197, 253, 0.6);
+  
+  animation: shooting-star 2s ease-out forwards;
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+.animate-fade-in-delay {
+  animation: fade-in-delay 0.3s ease-out forwards;
+  opacity: 0;
+}
+.light-star-glow {
+  background-color: #93c5fd !important; /* soft sky blue */
+  box-shadow: 0 0 6px 3px rgba(147, 197, 253, 0.7); 
+}
+
+/* Light mode meteor trail */
+.light-mode-meteor {
+  width: 3px;
+  height: 45px;
+  position: absolute;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(147, 197, 253, 1) 0%,
+    rgba(147, 197, 253, 0.7) 20%,
+    rgba(147, 197, 253, 0) 100%
+  );
+
+  transform-origin: 0% 0%;
+  box-shadow: 0 0 8px rgba(147, 197, 253, 0.8);
+}
+:not(.dark) body {
+  background: radial-gradient(circle at center, #eef6ff, #ffffff);
+}
+#root{
+  max-width: 100%;
+  margin:0 auto;
+  padding: 0;
+  text-align: center;
+}
